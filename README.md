@@ -16,7 +16,7 @@
   <a href="https://orke.bomtobe.com/support/">Support</a>
 </p>
 
-This README covers downloading and installing the app, starting your first session, connecting agents, remote access, command-line use, updates and removal. The orke interface is in **Korean**; the English meanings of the labels you need are included below.
+This README covers downloading and installing the app, starting your first session, connecting agents, remote access, command-line use, updates and removal. The examples below include Korean interface labels with their English meanings.
 
 ## Contents
 
@@ -32,23 +32,23 @@ This README covers downloading and installing the app, starting your first sessi
 - [Files, logs and backups](#files-logs-and-backups)
 - [Uninstall](#uninstall)
 - [Troubleshooting](#troubleshooting)
-- [Previous releases and validation](#previous-releases-and-validation)
+- [Release and validation](#release-and-validation)
 
 ## Download
 
 | Current download | Requirements |
 | --- | --- |
-| **orke 3.4.1** — [orke-macOS-arm64.dmg](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.1/orke-macOS-arm64.dmg) | **macOS 26 or later, Apple Silicon** — M-series Macs |
-| [Matching SHA-256 file](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.1/orke-macOS-arm64.dmg.sha256) | Optional download verification |
+| **orke 3.4.10** — [orke-macOS-arm64.dmg](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.10/orke-macOS-arm64.dmg) | **macOS 26 or later, Apple Silicon** — M-series Macs |
+| [Matching SHA-256 file](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.10/orke-macOS-arm64.dmg.sha256) | Optional download verification |
 
 **Intel Macs are not supported.** If unsure, choose the Apple menu → **About This Mac** and check the chip and macOS version. In Terminal, `uname -m` should report `arm64` when running natively; `sw_vers -productVersion` shows macOS.
 
-The app includes its .NET runtime, Electron desktop component and orke's NVIDIA agent. **You do not need to install .NET, Node.js or Electron to run orke.** Coding agents, Git and optional ngrok/Docker are installed separately as needed.
+The app includes its .NET runtime, Electron desktop component and orke's NVIDIA agent. **You do not need to install .NET, Node.js or Electron to run orke.** Coding agents, Git and optional Docker are installed separately as needed.
 
-The DMG is Developer ID signed and Apple-notarized. The current 3.4.1 file was rebuilt on **October 10, 2026**; if you downloaded it earlier that day, compare its checksum with the current file:
+The DMG is Developer ID signed and Apple-notarized. Version **3.4.10** was built from the current product source on **October 18, 2026**. Its SHA-256 is:
 
 ```text
-6d8983074b7482677d81fb18fc0ce65c1b136fb22c4df294d903d31b624f821f
+8150d28e3529185e817bbd046f54cc15bbc2e4f3eb1d0055907c7fff7c916c6e
 ```
 
 ### Check the download
@@ -68,9 +68,10 @@ Expected output: **`orke-macOS-arm64.dmg: OK`**. If either file was renamed by y
 2. Drag **orke.app** into **Applications**.
 3. Open **Applications → orke**. Launch the installed copy rather than leaving the app running from the mounted DMG.
 4. Approve macOS's normal first-launch confirmation for the downloaded app, if shown.
-5. After the installed app opens, eject the DMG in Finder.
+5. Sign in to orke with Google in your default browser and return to the app. This Mac remembers your account for later starts.
+6. After the installed app opens, eject the DMG in Finder.
 
-An orke desktop window opens. Your work runs locally under your Mac user account. Ordinary terminals work immediately; install and sign in to an agent when you want AI assistance.
+After Google sign-in, an orke desktop window opens. Your work runs locally under your Mac user account. Install and sign in to an agent when you want AI assistance.
 
 If macOS blocks opening the app, check the OS/chip requirements and checksum, then use [Apple's guidance for downloaded apps](https://support.apple.com/en-us/102445) or contact support with the exact message.
 
@@ -214,48 +215,22 @@ Host agent sessions run with your Mac user's permissions, and orke starts suppor
 
 ## Connect from another device
 
-Remote access is optional. The Mac must remain on, awake, connected to the internet and running orke.
+The Mac must remain on, awake, connected to the internet and running orke. Remote devices connect directly to its **public IPv4 over HTTPS**, normally on **port 48650**.
 
-### 1. Install ngrok on the Mac
+1. Sign in to orke with Google on the Mac.
+2. Open **설정 → 다른 기기에서 접속** — **Settings → Access from another device**.
+3. Prepare a trusted HTTPS certificate for the current public IPv4. Choose orke's automatic Let's Encrypt certificate management and accept the displayed CA terms, or import a suitable PFX containing the certificate, chain and private key.
+4. Allow the HTTPS port through the Mac firewall and router. Automatic certificate issuance also needs public TCP 80 to reach the configured HTTP challenge listener. Configure forwarding yourself where necessary; CGNAT or a restricted network can prevent direct access.
+5. Enable access and copy the **`https://PUBLIC-IP:48650`** address shown by orke.
+6. Open that address on the other device, sign in with the **same Google account**, and complete the browser approval shown by orke.
 
-Install ngrok 3.39.9 or later using its [official macOS instructions](https://ngrok.com/download/mac-os). If you already use Homebrew, its documented command is:
+See the [HTTPS and certificate guide](https://orke.bomtobe.com/en/docs/orke/remote/) for certificate requirements, public ports, renewal and connection troubleshooting. Do not use an expired certificate or bypass browser certificate errors.
 
-```bash
-brew install ngrok
-ngrok version
-```
-
-Quit and reopen orke after installation so its launcher can see the tool on your login-shell PATH. Mac does not have the Windows-only **ngrok 설치** — **Install ngrok** — button.
-
-### 2. Save your connection details
-
-Create an [ngrok account](https://dashboard.ngrok.com) and have your assigned free static domain and authtoken ready.
-
-In **설정 → 다른 기기에서 접속** — **Settings → Access from another device**:
-
-| Field/action | What to use |
-| --- | --- |
-| `할당 도메인` — Assigned domain | Your `name.ngrok-free.app` or `name.ngrok-free.dev` hostname, without `https://` or a path |
-| Authtoken | Your token from the ngrok dashboard |
-| `허용할 Google 이메일` — Allowed Google email | The Google account permitted to enter this workspace |
-| `다시 확인` — Check again | Re-detect ngrok after installing it |
-| `저장하고 계속` — Save and continue | Save the initial configuration |
-| `접속 시작` — Start access | Start the tunnel |
-| `주소 복사` — Copy address | Copy the address to open on the other device |
-
-### 3. Open the address on the other device
-
-Open the copied HTTPS address in its browser, choose **Visit Site** if ngrok displays its free-domain notice, and sign in with the allowed Google account. You are operating the same Mac workspace and its files.
-
-**연결 끊기** — **Disconnect** — stops remote access while keeping local sessions running. **연결 정보 바꾸기** — **Change connection details** — edits the saved setup. Enable **orke을 시작할 때 자동으로 연결** — **Connect automatically when orke starts** — only if you want startup connection.
-
-One ngrok domain can be active on only one computer at a time. Disconnect the other computer first if it uses the same domain. The allowed Google identity has access to this Mac user's orke workspace; remote access is not a separate guest account.
-
-A phone browser can use the same URL. Full settings and orke support administration use the computer layout. Compatible mobile apps can also open the saved address; this guide's browser route does not depend on a particular store-app version.
+Turning access off or signing out revokes remote authorization and connections while keeping live terminal sessions. The remote browser uses the same Mac workspace and its files. Phone browsers and compatible mobile clients use the same HTTPS address; Google and official approval pages open through the system browser in the mobile app.
 
 ## Use orke from Terminal
 
-The current Mac 3.4.1 DMG includes orke's local control CLI. Open **orke.app** before using commands that talk to its running workspace.
+The Mac DMG includes orke's local control CLI. Open **orke.app** before using commands that talk to its running workspace.
 
 ### Enable the `orke` command
 
@@ -319,7 +294,7 @@ orke support lets a trusted backend ask questions through HTTP using Claude/Chat
 4. Select **만들기** — **Create**. Save the access key displayed once in **연결** — **Connection**.
 5. Try a question in **시험** — **Test**. The Connection tab then shows the matching request examples for your backend.
 
-The default API is **`http://127.0.0.1:48700/v1`**, separate from the ngrok browser address. The access key selects the AI. Codex must be signed in with ChatGPT; an API-key-only login is not accepted for orke support.
+The default API is **`http://127.0.0.1:48700/v1`**, separate from the remote HTTPS browser address. The access key selects the AI. Codex must be signed in with ChatGPT; an API-key-only login is not accepted for orke support.
 
 <details>
 <summary>Terminal example: create a room and send a question</summary>
@@ -413,7 +388,7 @@ The app's CLI does not implement an `orke --version` command; use About or the p
 2. Quit orke with **Cmd+Q**.
 3. Move **Applications/orke.app** to the Trash.
 
-This leaves the saved data directory and separately installed agents/ngrok/Docker in place.
+This leaves the saved data directory and separately installed agents/Docker in place.
 
 ### Optionally remove saved data
 
@@ -464,9 +439,9 @@ These commands remove the isolated container and its home volume; removing the M
 | PATH setup refuses an existing wrapper | Inspect the existing command; preserve unrelated tools. Use the complete application path while deciding how to resolve the conflict. |
 | CLI cannot connect to the daemon | Open the installed orke app first. Help and setup-status work offline; live session/status/package calls need the daemon. |
 | External Terminal browser command reports unavailable | Use it from an orke This PC terminal/agent session with its inherited browser binding. |
-| ngrok is not detected | Install it through the official Mac method, verify `ngrok version`, reopen orke, then select **다시 확인**. |
-| ngrok says another endpoint uses the address | Disconnect that computer's tunnel before reconnecting this Mac; turn off its startup auto-connect if needed. |
-| ngrok authentication fails | Edit the connection details with the current dashboard authtoken and reconnect. |
+| HTTPS address cannot be reached | Check the public IPv4, port 48650, router forwarding, Mac firewall and possible CGNAT; follow the HTTPS guide above. |
+| Certificate issuance or renewal fails | Check public TCP 80, forwarding to the configured challenge listener and the current CA agreement in the Mac settings. |
+| Remote Google sign-in is refused | Use the same Google account as the Mac and complete approval for this browser. |
 | Remote access disappears after sleep or quit | Keep the Mac awake and running orke while using it remotely. |
 | New Linux `update`/`uninstall` instructions do not work on Mac | Those commands target the Linux server; update by replacing the DMG and uninstall using the steps above. |
 
@@ -478,16 +453,16 @@ tail -n 100 "$HOME/.orke/logs/daemon.log"
 
 Use your actual data location if customized. Include the version from About, chip, macOS version, agent and exact error in a support request. Remove access keys, tokens and private UI addresses from shared logs.
 
-## Previous releases and validation
+## Release and validation
 
-| Version | Original Mac date | Notes |
+| Version | Mac release date | Notes |
 | --- | --- | --- |
-| [3.4.1](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.1) | October 10, 2026 | Current signed/notarized DMG, including built-in web windows and control CLI; rebuilt later that day |
-| [3.1.3](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.1.3) | September 19, 2026 | Earlier signed/notarized build; the app inside is BOM.app and predates later features |
-| [2.2.2](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v2.2.2) | July 12, 2026 | Earlier Legacy Mac app, retained for history |
+| [3.4.10](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.10) | October 18, 2026 | Current Developer ID signed and Apple-notarized DMG; Google member sign-in and direct HTTPS remote access |
 
-The current replacement DMG's signature, notarization, downloaded checksum/Gatekeeper assessment, background companion startup and shutdown were checked on an M4 Mac running macOS 27.0.1. That does not establish live validation of every agent, Docker isolation or every remote/mobile flow. The minimum supported macOS version is 26; an actual 26.x machine and installation on a second Mac were not part of that replacement-DMG check.
+Earlier 3.4.1, 3.1.3 and Legacy 2.2.2 releases and their tags were removed on October 18, 2026 at the owner's request. Install the current DMG above.
 
-This repository was renamed from `orke-releases` on October 11, 2026. Its Mac release files were preserved, and Linux downloads now have their own repository.
+The Release build, JavaScript checks (including 13 slow tests and 8 real-Electron probes), and the signed DMG's hidden launcher, HTTP assets and shutdown were checked on an Apple M4 Mac running macOS 27.0.1. The ordinary .NET run had 21,889 passes, 405 skips and one annotation-test timeout; all 10 cases of that test passed on a focused rerun. The full .NET run was not entirely green. Actual Google sign-in, public CA issuance, external HTTPS access, paid agent calls, Docker isolation, mobile devices, macOS 26.x and installation on a second Mac were not remeasured for this DMG.
+
+This repository was renamed from `orke-releases` on October 11, 2026. Linux downloads have their own repository.
 
 [Homepage](https://orke.bomtobe.com) · [Support & FAQ](https://orke.bomtobe.com/support/) · [Linux server](https://github.com/bomtobe-hgkim/orke-linux) · [Windows Store](https://apps.microsoft.com/detail/9N7G0NK63QGR) · [Privacy](https://orke.bomtobe.com/privacy/) · [Contact: bomtobe.sw@gmail.com](mailto:bomtobe.sw@gmail.com)
