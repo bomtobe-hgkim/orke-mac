@@ -350,8 +350,6 @@ Mac updates use a new DMG:
 
 Settings and data remain in the configured orke data directory. The CLI wrapper set up by the app refers to the installed Applications path, so replacing the app at the same path keeps that command usable. Agent CLI updates are separate from the DMG update.
 
-If moving from 3.1.3 or the older Legacy app, keep their existing data until you decide what to remove. Older product homes are not automatically migrated into the current `~/.orke` home, and automatic migration from those older releases was not validated.
-
 ## Files, logs and backups
 
 | Location | Contents |
@@ -460,9 +458,8 @@ Use your actual data location if customized. Include the version from About, chi
 | Version | Mac release date | Notes |
 | --- | --- | --- |
 | [3.4.13](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.13) | October 20, 2026 | Current signed and notarized DMG; work groups, CLI management, close-all web pages, browser and terminal fixes |
-| [3.4.10](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.10) | October 18, 2026 | Previous signed and notarized DMG; Google member sign-in and direct HTTPS remote access |
 
-Earlier 3.4.1, 3.1.3 and Legacy 2.2.2 releases and their tags were removed on October 18, 2026 at the owner's request. Install the current DMG above.
+At the owner's request, older Mac releases and their tags have been removed. As of October 20, 2026, only the current 3.4.13 release is available.
 
 The Release build, JavaScript checks (including 13 slow tests and 10 real-Electron probes), and the signed DMG's hidden launcher, HTTP assets and shutdown were checked on an Apple M4 Mac running macOS 27.0.1. The final ordinary .NET run had 22,429 passes, 416 skips and two failures: an annotation-test timeout and a support-port rebind assertion. Both complete test classes passed on an isolated rerun (160 cases), without changing product timeouts. The full .NET run was not entirely green. The macOS Bash 3.2 firewall path-quoting defect found before packaging was fixed; all 31 firewall tests passed. Actual Google sign-in, public CA issuance, external HTTPS access, administrator firewall approval, paid agent calls, Docker isolation, mobile devices, macOS 26.x and installation on a second Mac were not remeasured for this DMG.
 
