@@ -38,17 +38,17 @@ This README covers downloading and installing the app, starting your first sessi
 
 | Current download | Requirements |
 | --- | --- |
-| **orke 3.4.10** — [orke-macOS-arm64.dmg](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.10/orke-macOS-arm64.dmg) | **macOS 26 or later, Apple Silicon** — M-series Macs |
-| [Matching SHA-256 file](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.10/orke-macOS-arm64.dmg.sha256) | Optional download verification |
+| **orke 3.4.13** — [orke-macOS-arm64.dmg](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.13/orke-macOS-arm64.dmg) | **macOS 26 or later, Apple Silicon** — M-series Macs |
+| [Matching SHA-256 file](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.13/orke-macOS-arm64.dmg.sha256) | Optional download verification |
 
 **Intel Macs are not supported.** If unsure, choose the Apple menu → **About This Mac** and check the chip and macOS version. In Terminal, `uname -m` should report `arm64` when running natively; `sw_vers -productVersion` shows macOS.
 
 The app includes its .NET runtime, Electron desktop component and orke's NVIDIA agent. **You do not need to install .NET, Node.js or Electron to run orke.** Coding agents, Git and optional Docker are installed separately as needed.
 
-The DMG is Developer ID signed and Apple-notarized. Version **3.4.10** was built from the current product source on **October 18, 2026**. Its SHA-256 is:
+The DMG is Developer ID signed and Apple-notarized. Version **3.4.13** was built from the current product source on **October 20, 2026**. Its SHA-256 is:
 
 ```text
-8150d28e3529185e817bbd046f54cc15bbc2e4f3eb1d0055907c7fff7c916c6e
+75e2458d0790058e2e5ee8e5b639f1d414b1222dc0e2f42de35e1a68bb75ee4b
 ```
 
 ### Check the download
@@ -70,6 +70,8 @@ Expected output: **`orke-macOS-arm64.dmg: OK`**. If either file was renamed by y
 4. Approve macOS's normal first-launch confirmation for the downloaded app, if shown.
 5. Sign in to orke with Google in your default browser and return to the app. This Mac remembers your account for later starts.
 6. After the installed app opens, eject the DMG in Finder.
+
+When macOS needs an app-specific firewall allowance, orke requests administrator approval through the system dialog. Canceling that approval keeps the local app available.
 
 After Google sign-in, an orke desktop window opens. Your work runs locally under your Mac user account. Install and sign in to an agent when you want AI assistance.
 
@@ -183,7 +185,7 @@ If an installed CLI is missing in orke, confirm it in Terminal using `command -v
 
 Use **웹 창** — **Web windows** — to open a website inside the workspace. You and the agent work with the same page; website sign-in happens on the website and is saved in orke's web profile.
 
-Use the page's element-selection or screenshot action when you want to give an agent context from a page. Closing that web window closes its web tabs. Reloading/recreating a page can lose unsaved forms and scroll position even though profile cookies remain.
+Use the page's element-selection or screenshot action when you want to give an agent context from a page. Closing that web window closes its web tabs. Right-click the Web tile in the Dock to close all web pages, with leave-page confirmation where required. Web pages do not reopen automatically when orke starts again. Reloading/recreating a page can lose unsaved forms and scroll position even though profile cookies remain.
 
 ### Git
 
@@ -203,7 +205,7 @@ Then use **git 저장소 열기** — **Open Git repository** — in orke and ch
 
 ### Packages and Hermes scheduled jobs
 
-Open **패키지** — **Packages** — to inspect supported skills, commands, MCP configuration and package work. Hermes scheduled jobs belong to Hermes; orke shows their state and invokes Hermes's own commands for changes. Install/sign in to Hermes first if you want those features.
+Open **패키지** — **Packages** — to work with repeating tasks and AI employees. Each area has its own named groups; use the area's plus button to create a group and choose a group when creating work. Hermes scheduled jobs belong to Hermes; orke shows their state and invokes Hermes's own commands for changes. Install/sign in to Hermes first if you want those features.
 
 ### Optional Docker isolation
 
@@ -220,7 +222,7 @@ The Mac must remain on, awake, connected to the internet and running orke. Remot
 1. Sign in to orke with Google on the Mac.
 2. Open **설정 → 다른 기기에서 접속** — **Settings → Access from another device**.
 3. Prepare a trusted HTTPS certificate for the current public IPv4. Choose orke's automatic Let's Encrypt certificate management and accept the displayed CA terms, or import a suitable PFX containing the certificate, chain and private key.
-4. Allow the HTTPS port through the Mac firewall and router. Automatic certificate issuance also needs public TCP 80 to reach the configured HTTP challenge listener. Configure forwarding yourself where necessary; CGNAT or a restricted network can prevent direct access.
+4. Approve orke's app-specific Mac firewall allowance if requested, and allow the HTTPS port through your router. Automatic certificate issuance also needs public TCP 80 to reach the configured HTTP challenge listener. Configure forwarding yourself where necessary; CGNAT or a restricted network can prevent direct access.
 5. Enable access and copy the **`https://PUBLIC-IP:48650`** address shown by orke.
 6. Open that address on the other device, sign in with the **same Google account**, and complete the browser approval shown by orke.
 
@@ -280,7 +282,7 @@ These help/setup-status operations do not need a running daemon. For a running w
 
 The CLI also supports session creation, sending input, waiting and ending sessions, and package operations. Read `orke help` for each exact option. Command-created sessions are registered without opening a new desktop window; CLI submission success does not mean an AI task has finished.
 
-Browser commands such as `orke browser tab.list --json` belong inside an **orke This PC terminal/agent session** that has its browser binding. The current DMG does not provide that binding to an unrelated macOS Terminal window.
+Browser commands such as `orke browser tab.list --json` work inside an **orke This PC terminal/agent session** using that session's binding. From macOS Terminal, an operator can also use the running local browser from the exact folder of one existing orke workspace. See the [browser CLI guide](https://orke.bomtobe.com/en/docs/cli/browser/) for commands and workspace selection.
 
 The Linux `orke service`, `orke update` and `orke uninstall` commands are for Linux server installations. On Mac, use the [DMG update](#update-orke) and [uninstall](#uninstall) procedures below.
 
@@ -438,7 +440,7 @@ These commands remove the isolated container and its home volume; removing the M
 | PATH setup refuses the application location | Move the app from the mounted DMG into Applications and open that copy. |
 | PATH setup refuses an existing wrapper | Inspect the existing command; preserve unrelated tools. Use the complete application path while deciding how to resolve the conflict. |
 | CLI cannot connect to the daemon | Open the installed orke app first. Help and setup-status work offline; live session/status/package calls need the daemon. |
-| External Terminal browser command reports unavailable | Use it from an orke This PC terminal/agent session with its inherited browser binding. |
+| External Terminal browser command reports unavailable | Open orke and use the exact working folder of one existing workspace, or use an orke This PC terminal/agent session. |
 | HTTPS address cannot be reached | Check the public IPv4, port 48650, router forwarding, Mac firewall and possible CGNAT; follow the HTTPS guide above. |
 | Certificate issuance or renewal fails | Check public TCP 80, forwarding to the configured challenge listener and the current CA agreement in the Mac settings. |
 | Remote Google sign-in is refused | Use the same Google account as the Mac and complete approval for this browser. |
@@ -457,11 +459,12 @@ Use your actual data location if customized. Include the version from About, chi
 
 | Version | Mac release date | Notes |
 | --- | --- | --- |
-| [3.4.10](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.10) | October 18, 2026 | Current Developer ID signed and Apple-notarized DMG; Google member sign-in and direct HTTPS remote access |
+| [3.4.13](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.13) | October 20, 2026 | Current signed and notarized DMG; work groups, CLI management, close-all web pages, browser and terminal fixes |
+| [3.4.10](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.10) | October 18, 2026 | Previous signed and notarized DMG; Google member sign-in and direct HTTPS remote access |
 
 Earlier 3.4.1, 3.1.3 and Legacy 2.2.2 releases and their tags were removed on October 18, 2026 at the owner's request. Install the current DMG above.
 
-The Release build, JavaScript checks (including 13 slow tests and 8 real-Electron probes), and the signed DMG's hidden launcher, HTTP assets and shutdown were checked on an Apple M4 Mac running macOS 27.0.1. The ordinary .NET run had 21,889 passes, 405 skips and one annotation-test timeout; all 10 cases of that test passed on a focused rerun. The full .NET run was not entirely green. Actual Google sign-in, public CA issuance, external HTTPS access, paid agent calls, Docker isolation, mobile devices, macOS 26.x and installation on a second Mac were not remeasured for this DMG.
+The Release build, JavaScript checks (including 13 slow tests and 10 real-Electron probes), and the signed DMG's hidden launcher, HTTP assets and shutdown were checked on an Apple M4 Mac running macOS 27.0.1. The final ordinary .NET run had 22,429 passes, 416 skips and two failures: an annotation-test timeout and a support-port rebind assertion. Both complete test classes passed on an isolated rerun (160 cases), without changing product timeouts. The full .NET run was not entirely green. The macOS Bash 3.2 firewall path-quoting defect found before packaging was fixed; all 31 firewall tests passed. Actual Google sign-in, public CA issuance, external HTTPS access, administrator firewall approval, paid agent calls, Docker isolation, mobile devices, macOS 26.x and installation on a second Mac were not remeasured for this DMG.
 
 This repository was renamed from `orke-releases` on October 11, 2026. Linux downloads have their own repository.
 
