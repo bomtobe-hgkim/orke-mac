@@ -458,9 +458,8 @@ Use your actual data location if customized. Include the version from About, chi
 | Version | Mac release date | Notes |
 | --- | --- | --- |
 | [3.4.17](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.17) | October 26, 2026 | Current signed and notarized DMG; terminal search and paste safety, clean terminal exits, shortcuts while Hangul composes, MCP sign-ins kept across Claude account switches, usage and notification fixes, phone terminal scrolling and selection |
-| [3.4.15](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.15) | October 23, 2026 | Previous signed and notarized DMG; one Dock icon, reopening brings back the orke window, Keychain Claude sign-in, macOS notifications, permission prompts for camera, microphone, Bluetooth and web-page location |
 
-At the owner's request, older Mac releases and their tags have been removed. As of October 26, 2026, the 3.4.17 and 3.4.15 releases are available.
+At the owner's request, older Mac releases and their tags have been removed. As of October 26, 2026, only the current 3.4.17 release is available.
 
 For 3.4.17, the Release build (0 warnings, 0 errors), the ordinary .NET run (18,443 passed, 360 skipped and 0 failed in the main suite; 1,349 agent and 48 notification tests passed) and the JavaScript checks (1,799 web, 11 slow, 1,348 desktop component and 10 real-Electron probes) all passed on their first run on an Apple M4 Mac running macOS 27.0.1. Gatekeeper accepted the DMG and the app as Notarized Developer ID, and the upload was downloaded again from this repository and checked. The app inside the DMG was started in test mode with a temporary data folder: its interface answered, the patched terminal files were served, and one terminal session ran a command and exited cleanly. Actual Google sign-in, public CA issuance, external HTTPS access, administrator firewall approval, paid agent calls, the visible window, Docker isolation, mobile devices, macOS 26.x and installation on a second Mac were not remeasured for this DMG.
 
