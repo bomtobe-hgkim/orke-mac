@@ -38,17 +38,17 @@ This README covers downloading and installing the app, starting your first sessi
 
 | Current download | Requirements |
 | --- | --- |
-| **orke 3.4.13** — [orke-macOS-arm64.dmg](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.13/orke-macOS-arm64.dmg) | **macOS 26 or later, Apple Silicon** — M-series Macs |
-| [Matching SHA-256 file](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.13/orke-macOS-arm64.dmg.sha256) | Optional download verification |
+| **orke 3.4.17** — [orke-macOS-arm64.dmg](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.17/orke-macOS-arm64.dmg) | **macOS 26 or later, Apple Silicon** — M-series Macs |
+| [Matching SHA-256 file](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.17/orke-macOS-arm64.dmg.sha256) | Optional download verification |
 
 **Intel Macs are not supported.** If unsure, choose the Apple menu → **About This Mac** and check the chip and macOS version. In Terminal, `uname -m` should report `arm64` when running natively; `sw_vers -productVersion` shows macOS.
 
 The app includes its .NET runtime, Electron desktop component and orke's NVIDIA agent. **You do not need to install .NET, Node.js or Electron to run orke.** Coding agents, Git and optional Docker are installed separately as needed.
 
-The DMG is Developer ID signed and Apple-notarized. Version **3.4.13** was built from the current product source on **October 20, 2026**. Its SHA-256 is:
+The DMG is Developer ID signed and Apple-notarized. Version **3.4.17** was built from the current product source on **October 26, 2026**. Its SHA-256 is:
 
 ```text
-75e2458d0790058e2e5ee8e5b639f1d414b1222dc0e2f42de35e1a68bb75ee4b
+7553f5efb357f8f77a38f777df5995eccedbc28032061efc33e12894b7f3f9c7
 ```
 
 ### Check the download
@@ -81,7 +81,7 @@ If macOS blocks opening the app, check the OS/chip requirements and checksum, th
 
 | Action | What happens |
 | --- | --- |
-| Close the main desktop window | The app minimizes to the Dock and continues running; click its Dock icon to return. |
+| Close the main desktop window | The window hides and the app keeps running; click its Dock icon to return. |
 | Close a terminal tab/window | The terminal session can keep running; reopen it from **세션** — **Sessions**. |
 | Close a web window inside the workspace | Its web tabs close, with leave-page confirmation when required. |
 | Choose **orke 종료** — **Quit orke**, or press **Cmd+Q** | The app quits; terminal processes and web pages end. |
@@ -457,11 +457,12 @@ Use your actual data location if customized. Include the version from About, chi
 
 | Version | Mac release date | Notes |
 | --- | --- | --- |
-| [3.4.13](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.13) | October 20, 2026 | Current signed and notarized DMG; work groups, CLI management, close-all web pages, browser and terminal fixes |
+| [3.4.17](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.17) | October 26, 2026 | Current signed and notarized DMG; terminal search and paste safety, clean terminal exits, shortcuts while Hangul composes, MCP sign-ins kept across Claude account switches, usage and notification fixes, phone terminal scrolling and selection |
+| [3.4.15](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.15) | October 23, 2026 | Previous signed and notarized DMG; one Dock icon, reopening brings back the orke window, Keychain Claude sign-in, macOS notifications, permission prompts for camera, microphone, Bluetooth and web-page location |
 
-At the owner's request, older Mac releases and their tags have been removed. As of October 20, 2026, only the current 3.4.13 release is available.
+At the owner's request, older Mac releases and their tags have been removed. As of October 26, 2026, the 3.4.17 and 3.4.15 releases are available.
 
-The Release build, JavaScript checks (including 13 slow tests and 10 real-Electron probes), and the signed DMG's hidden launcher, HTTP assets and shutdown were checked on an Apple M4 Mac running macOS 27.0.1. The final ordinary .NET run had 22,429 passes, 416 skips and two failures: an annotation-test timeout and a support-port rebind assertion. Both complete test classes passed on an isolated rerun (160 cases), without changing product timeouts. The full .NET run was not entirely green. The macOS Bash 3.2 firewall path-quoting defect found before packaging was fixed; all 31 firewall tests passed. Actual Google sign-in, public CA issuance, external HTTPS access, administrator firewall approval, paid agent calls, Docker isolation, mobile devices, macOS 26.x and installation on a second Mac were not remeasured for this DMG.
+For 3.4.17, the Release build (0 warnings, 0 errors), the ordinary .NET run (18,443 passed, 360 skipped and 0 failed in the main suite; 1,349 agent and 48 notification tests passed) and the JavaScript checks (1,799 web, 11 slow, 1,348 desktop component and 10 real-Electron probes) all passed on their first run on an Apple M4 Mac running macOS 27.0.1. Gatekeeper accepted the DMG and the app as Notarized Developer ID, and the upload was downloaded again from this repository and checked. The app inside the DMG was started in test mode with a temporary data folder: its interface answered, the patched terminal files were served, and one terminal session ran a command and exited cleanly. Actual Google sign-in, public CA issuance, external HTTPS access, administrator firewall approval, paid agent calls, the visible window, Docker isolation, mobile devices, macOS 26.x and installation on a second Mac were not remeasured for this DMG.
 
 This repository was renamed from `orke-releases` on October 11, 2026. Linux downloads have their own repository.
 
