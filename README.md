@@ -38,17 +38,17 @@ This README covers downloading and installing the app, starting your first sessi
 
 | Current download | Requirements |
 | --- | --- |
-| **orke 3.4.17** — [orke-macOS-arm64.dmg](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.17/orke-macOS-arm64.dmg) | **macOS 26 or later, Apple Silicon** — M-series Macs |
-| [Matching SHA-256 file](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.17/orke-macOS-arm64.dmg.sha256) | Optional download verification |
+| **orke 3.4.20** — [orke-macOS-arm64.dmg](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.20/orke-macOS-arm64.dmg) | **macOS 26 or later, Apple Silicon** — M-series Macs |
+| [Matching SHA-256 file](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.20/orke-macOS-arm64.dmg.sha256) | Optional download verification |
 
 **Intel Macs are not supported.** If unsure, choose the Apple menu → **About This Mac** and check the chip and macOS version. In Terminal, `uname -m` should report `arm64` when running natively; `sw_vers -productVersion` shows macOS.
 
 The app includes its .NET runtime, Electron desktop component and orke's NVIDIA agent. **You do not need to install .NET, Node.js or Electron to run orke.** Coding agents, Git and optional Docker are installed separately as needed.
 
-The DMG is Developer ID signed and Apple-notarized. Version **3.4.17** was built from the current product source on **October 26, 2026**. Its SHA-256 is:
+The DMG is Developer ID signed and Apple-notarized. Version **3.4.20** was built from the current product source on **November 6, 2026**. Its SHA-256 is:
 
 ```text
-7553f5efb357f8f77a38f777df5995eccedbc28032061efc33e12894b7f3f9c7
+2452faddde7dc9b73e276b643adfd4649ca633cf0cc1fc842f2ac02c8a41cd70
 ```
 
 ### Check the download
@@ -457,9 +457,12 @@ Use your actual data location if customized. Include the version from About, chi
 
 | Version | Mac release date | Notes |
 | --- | --- | --- |
-| [3.4.17](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.17) | October 26, 2026 | Current signed and notarized DMG; terminal search and paste safety, clean terminal exits, shortcuts while Hangul composes, MCP sign-ins kept across Claude account switches, usage and notification fixes, phone terminal scrolling and selection |
+| [3.4.20](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.20) | November 6, 2026 | Current signed and notarized DMG; a slow viewer no longer holds up a terminal, dead terminal connections noticed with typed keys kept, unattended runs wait out usage limits and CLI reinstalls, daily AI employees work again, program status reports (OSC 7501), honest agent browser input and non-blocking page dialogs, phone Korean input, new Android device window (not measured on macOS) |
+| [3.4.17](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.17) | October 26, 2026 | Previous signed and notarized DMG; terminal search and paste safety, clean terminal exits, shortcuts while Hangul composes, MCP sign-ins kept across Claude account switches, usage and notification fixes, phone terminal scrolling and selection |
 
-At the owner's request, older Mac releases and their tags have been removed. As of October 26, 2026, only the current 3.4.17 release is available.
+At the owner's request, older Mac releases and their tags have been removed. As of November 6, 2026, the current 3.4.20 release and the previous 3.4.17 release are available.
+
+For 3.4.20, the Release build (0 warnings, 0 errors), the ordinary .NET run (19,846 passed, 392 skipped and 0 failed in the main suite; 1,387 agent and 48 notification tests passed) and the JavaScript checks (1,945 web, 11 slow, 1,411 desktop component and 15 real-Electron probes) all passed on their first run on an Apple M4 Mac running macOS 27.0.1. Apple notarization accepted the DMG with no issues, Gatekeeper accepted the DMG and the app as Notarized Developer ID, and the upload was downloaded again from this repository and checked. The app inside the DMG was started in test mode with a temporary data folder: its interface answered, the patched terminal files and the pinned scrcpy server were in place, and one terminal session ran a command and exited cleanly. The changes since 3.4.17 were checked on macOS only through these automated checks. Actual Google sign-in, public CA issuance, external HTTPS access, administrator firewall approval, paid agent calls, the visible window, the Android device window, Docker isolation, mobile devices, macOS 26.x and installation on a second Mac were not remeasured for this DMG.
 
 For 3.4.17, the Release build (0 warnings, 0 errors), the ordinary .NET run (18,443 passed, 360 skipped and 0 failed in the main suite; 1,349 agent and 48 notification tests passed) and the JavaScript checks (1,799 web, 11 slow, 1,348 desktop component and 10 real-Electron probes) all passed on their first run on an Apple M4 Mac running macOS 27.0.1. Gatekeeper accepted the DMG and the app as Notarized Developer ID, and the upload was downloaded again from this repository and checked. The app inside the DMG was started in test mode with a temporary data folder: its interface answered, the patched terminal files were served, and one terminal session ran a command and exited cleanly. Actual Google sign-in, public CA issuance, external HTTPS access, administrator firewall approval, paid agent calls, the visible window, Docker isolation, mobile devices, macOS 26.x and installation on a second Mac were not remeasured for this DMG.
 
