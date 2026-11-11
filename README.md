@@ -38,17 +38,17 @@ This README covers downloading and installing the app, starting your first sessi
 
 | Current download | Requirements |
 | --- | --- |
-| **orke 3.4.20** — [orke-macOS-arm64.dmg](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.20/orke-macOS-arm64.dmg) | **macOS 26 or later, Apple Silicon** — M-series Macs |
-| [Matching SHA-256 file](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.20/orke-macOS-arm64.dmg.sha256) | Optional download verification |
+| **orke 3.4.21** — [orke-macOS-arm64.dmg](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.21/orke-macOS-arm64.dmg) | **macOS 26 or later, Apple Silicon** — M-series Macs |
+| [Matching SHA-256 file](https://github.com/bomtobe-hgkim/orke-mac/releases/download/v3.4.21/orke-macOS-arm64.dmg.sha256) | Optional download verification |
 
 **Intel Macs are not supported.** If unsure, choose the Apple menu → **About This Mac** and check the chip and macOS version. In Terminal, `uname -m` should report `arm64` when running natively; `sw_vers -productVersion` shows macOS.
 
 The app includes its .NET runtime, Electron desktop component and orke's NVIDIA agent. **You do not need to install .NET, Node.js or Electron to run orke.** Coding agents, Git and optional Docker are installed separately as needed.
 
-The DMG is Developer ID signed and Apple-notarized. Version **3.4.20** was built from the current product source on **November 6, 2026**. Its SHA-256 is:
+The DMG is Developer ID signed and Apple-notarized. Version **3.4.21** was built from the current product source on **November 11, 2026**. Its SHA-256 is:
 
 ```text
-2452faddde7dc9b73e276b643adfd4649ca633cf0cc1fc842f2ac02c8a41cd70
+14a4a12aa149d2f0d285a6a3ff20f1028e2d500897c505467ef9c56a36865ee6
 ```
 
 ### Check the download
@@ -85,6 +85,7 @@ If macOS blocks opening the app, check the OS/chip requirements and checksum, th
 | Close a terminal tab/window | The terminal session can keep running; reopen it from **세션** — **Sessions**. |
 | Close a web window inside the workspace | Its web tabs close, with leave-page confirmation when required. |
 | Choose **orke 종료** — **Quit orke**, or press **Cmd+Q** | The app quits; terminal processes and web pages end. |
+| Choose **설정 → 일반 → orke 다시 시작** — **Settings → General → Restart orke** | After a confirmation, orke quits and starts again at once. Terminal tabs and their programs, web windows and Android emulators orke started end; repeating tasks and AI employees continue after the restart. A remote browser signs in again. |
 
 Live processes are not restored after quitting orke or restarting the Mac. Closing the main window and quitting the app are different actions.
 
@@ -224,7 +225,9 @@ The Mac must remain on, awake, connected to the internet and running orke. Remot
 3. Prepare a trusted HTTPS certificate for the current public IPv4. Choose orke's automatic Let's Encrypt certificate management and accept the displayed CA terms, or import a suitable PFX containing the certificate, chain and private key.
 4. Approve orke's app-specific Mac firewall allowance if requested, and allow the HTTPS port through your router. Automatic certificate issuance also needs public TCP 80 to reach the configured HTTP challenge listener. Configure forwarding yourself where necessary; CGNAT or a restricted network can prevent direct access.
 5. Enable access and copy the **`https://PUBLIC-IP:48650`** address shown by orke.
-6. Open that address on the other device, sign in with the **same Google account**, and complete the browser approval shown by orke.
+6. Open that address in a browser on the other device and sign in with the **same Google account** in that tab. orke brings the browser straight back to the workspace; there is no approval code or extra allow step.
+
+The Google sign-in result is given only to the account that registered this Mac, and it works only in the browser that started the sign-in, so a forwarded sign-in link lets no one else in. The orke phone app and other in-app browsers, another computer's orke web window and `orke login` on a server without a screen still show an approval code to confirm.
 
 See the [HTTPS and certificate guide](https://orke.bomtobe.com/en/docs/orke/remote/) for certificate requirements, public ports, renewal and connection troubleshooting. Do not use an expired certificate or bypass browser certificate errors.
 
@@ -378,7 +381,7 @@ To identify the installed version, use **설정 → 정보 → 버전 복사** �
   /Applications/orke.app/Contents/Info.plist
 ```
 
-The app's CLI does not implement an `orke --version` command; use About or the plist inspection above.
+The app's CLI also prints it: `orke --version` (for example `orke 3.4.21`).
 
 ## Uninstall
 
@@ -441,7 +444,7 @@ These commands remove the isolated container and its home volume; removing the M
 | External Terminal browser command reports unavailable | Open orke and use the exact working folder of one existing workspace, or use an orke This PC terminal/agent session. |
 | HTTPS address cannot be reached | Check the public IPv4, port 48650, router forwarding, Mac firewall and possible CGNAT; follow the HTTPS guide above. |
 | Certificate issuance or renewal fails | Check public TCP 80, forwarding to the configured challenge listener and the current CA agreement in the Mac settings. |
-| Remote Google sign-in is refused | Use the same Google account as the Mac and complete approval for this browser. |
+| Remote Google sign-in is refused | Use the same Google account that signed in to orke on the Mac, and finish the sign-in in the same browser tab where you started it. |
 | Remote access disappears after sleep or quit | Keep the Mac awake and running orke while using it remotely. |
 | New Linux `update`/`uninstall` instructions do not work on Mac | Those commands target the Linux server; update by replacing the DMG and uninstall using the steps above. |
 
@@ -457,9 +460,12 @@ Use your actual data location if customized. Include the version from About, chi
 
 | Version | Mac release date | Notes |
 | --- | --- | --- |
-| [3.4.20](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.20) | November 6, 2026 | Current signed and notarized DMG; a slow viewer no longer holds up a terminal, dead terminal connections noticed with typed keys kept, unattended runs wait out usage limits and CLI reinstalls, daily AI employees work again, program status reports (OSC 7501), honest agent browser input and non-blocking page dialogs, phone Korean input, new Android device window (not measured on macOS) |
+| [3.4.21](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.21) | November 11, 2026 | Current signed and notarized DMG; restart orke from Settings → General, a remote browser enters with Google sign-in alone (no approval code) |
+| [3.4.20](https://github.com/bomtobe-hgkim/orke-mac/releases/tag/v3.4.20) | November 6, 2026 | Previous release; a slow viewer no longer holds up a terminal, dead terminal connections noticed with typed keys kept, unattended runs wait out usage limits and CLI reinstalls, daily AI employees work again, program status reports (OSC 7501), honest agent browser input and non-blocking page dialogs, phone Korean input, new Android device window (not measured on macOS) |
 
-At the owner's request, older Mac releases and their tags have been removed. As of November 6, 2026, only the current 3.4.20 release is available.
+At the owner's request, older Mac releases and their tags have been removed. As of November 11, 2026, the current 3.4.21 release and the previous 3.4.20 release are available.
+
+For 3.4.21, the Release build (0 warnings, 0 errors), the ordinary .NET run (19,867 passed, 392 skipped and 0 failed in the main suite; 1,387 agent and 48 notification tests passed) and the JavaScript checks (1,954 web, 11 slow, 1,411 desktop component and 15 real-Electron probes) all passed on their first run on an Apple M4 Mac running macOS 27.0.1. Apple notarization accepted the DMG, Gatekeeper accepted the DMG and the app as Notarized Developer ID, and the upload was downloaded again from this repository and checked. The app inside the DMG was started in test mode with a temporary data folder: its interface answered, the patched terminal files and the pinned scrcpy server were in place, and one terminal session ran a command and exited cleanly. The launcher code inside the DMG was checked with a stand-in daemon: it starts the daemon again when the daemon exits with the restart code and ends the app on any other exit (macOS refuses a modified signed bundle, so that code was re-signed ad hoc in a scratch copy for this check). A restart from the actual Settings button, a remote browser's real Google sign-in, actual Google sign-in on first launch, public CA issuance, external HTTPS access, administrator firewall approval, paid agent calls, the visible window, the Android device window, Docker isolation, mobile devices, macOS 26.x and installation on a second Mac were not measured for this DMG.
 
 For 3.4.20, the Release build (0 warnings, 0 errors), the ordinary .NET run (19,846 passed, 392 skipped and 0 failed in the main suite; 1,387 agent and 48 notification tests passed) and the JavaScript checks (1,945 web, 11 slow, 1,411 desktop component and 15 real-Electron probes) all passed on their first run on an Apple M4 Mac running macOS 27.0.1. Apple notarization accepted the DMG with no issues, Gatekeeper accepted the DMG and the app as Notarized Developer ID, and the upload was downloaded again from this repository and checked. The app inside the DMG was started in test mode with a temporary data folder: its interface answered, the patched terminal files and the pinned scrcpy server were in place, and one terminal session ran a command and exited cleanly. The changes since 3.4.17 were checked on macOS only through these automated checks. Actual Google sign-in, public CA issuance, external HTTPS access, administrator firewall approval, paid agent calls, the visible window, the Android device window, Docker isolation, mobile devices, macOS 26.x and installation on a second Mac were not remeasured for this DMG.
 
